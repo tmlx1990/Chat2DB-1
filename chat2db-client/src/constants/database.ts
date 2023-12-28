@@ -118,6 +118,13 @@ export const databaseMap: {
     // port: 27017,
     icon: '\uec21',
   },
+  [DatabaseTypeCode.TDENGINE]: {
+    name: 'TDengine',
+    img: moreDBLogo,
+    code: DatabaseTypeCode.TDENGINE,
+    // port: 27017,
+    icon: '\uec21',
+  },
   // [DatabaseTypeCode.REDIS]: {
   //   name: 'Redis',
   //   img: moreDBLogo,

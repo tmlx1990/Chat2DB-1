@@ -2076,4 +2076,113 @@ export const dataSourceFormConfigs: IConnectionConfig[] = [
     extendInfo: [],
     type: DatabaseTypeCode.MONGODB
   },
+  // TDENGINE
+  {
+    baseInfo: {
+      items: [
+        {
+          defaultValue: '@localhost',
+          inputType: InputType.INPUT,
+          labelNameCN: '名称',
+          labelNameEN: 'Name',
+          name: 'alias',
+          required: true,
+        },
+        envItem,
+        {
+          defaultValue: 'localhost',
+          inputType: InputType.INPUT,
+          labelNameCN: '主机',
+          labelNameEN: 'Host',
+          name: 'host',
+          required: true,
+          styles: {
+            width: '70%',
+          }
+        },
+        {
+          defaultValue: '6041',
+          inputType: InputType.INPUT,
+          labelNameCN: '端口',
+          labelNameEN: 'Port',
+          name: 'port',
+          labelTextAlign: 'right',
+          required: true,
+          styles: {
+            width: '30%',
+            labelWidthEN: '40px',
+            labelWidthCN: '40px',
+            labelAlign: 'right'
+          }
+        },
+        {
+          defaultValue: AuthenticationType.USERANDPASSWORD,
+          inputType: InputType.SELECT,
+          labelNameCN: '身份验证',
+          labelNameEN: 'Authentication',
+          name: 'authenticationType',
+          required: true,
+          selects: [
+            {
+              items: [
+                {
+                  defaultValue: 'root',
+                  inputType: InputType.INPUT,
+                  labelNameCN: '用户名',
+                  labelNameEN: 'User',
+                  name: 'user',
+                  required: true,
+                },
+                {
+                  defaultValue: '',
+                  inputType: InputType.PASSWORD,
+                  labelNameCN: '密码',
+                  labelNameEN: 'Password',
+                  name: 'password',
+                  required: true,
+                },
+              ],
+              label: 'User&Password',
+              value: AuthenticationType.USERANDPASSWORD,
+            },
+            {
+              label: 'NONE',
+              value: AuthenticationType.NONE,
+              items: [],
+
+            },
+          ],
+          styles: {
+            width: '50%',
+          }
+        },
+        {
+          defaultValue: '',
+          inputType: InputType.INPUT,
+          labelNameCN: '数据库',
+          labelNameEN: 'Database',
+          name: 'database',
+          required: false,
+        },
+        {
+          defaultValue: 'jdbc:TAOS-RS://localhost:6041',
+          inputType: InputType.INPUT,
+          labelNameCN: 'URL',
+          labelNameEN: 'URL',
+          name: 'url',
+          required: true,
+        },
+      ],
+      pattern: /jdbc:TAOS-RS:\/\/(.*):(\d+)(\/(\w+))?/,
+      template: 'jdbc:TAOS-RS://{host}:{port}/{database}',
+    },
+    ssh: sshConfig,
+    extendInfo: [
+      {
+        "key": "zeroDateTimeBehavior",
+        "value": "convertToNull"
+      }
+    ],
+    type: DatabaseTypeCode.TDENGINE,
+  },
 ];

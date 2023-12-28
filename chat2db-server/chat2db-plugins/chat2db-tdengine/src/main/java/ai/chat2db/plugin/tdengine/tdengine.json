@@ -1,0 +1,25 @@
+{
+  "dbType": "TDENGINE",
+  "supportDatabase": true,
+  "supportSchema": false,
+  "driverConfigList": [
+    {
+      "url": "jdbc:TAOS-RS://localhost:6041/",
+      "defaultDriver": true,
+      "custom": false,
+      "downloadJdbcDriverUrls": [
+        "https://oss.sqlgpt.cn/lib/taos-jdbcdriver-3.2.7.jar"
+      ],
+      "jdbcDriver": "taos-jdbcdriver-3.2.7.jar",
+      "jdbcDriverClass": "com.taosdata.jdbc.rs.RestfulDriver",
+      "extendInfo": [
+        {
+          "key": "zeroDateTimeBehavior",
+          "value": "convertToNull",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "name": "TDengine"
+}
