@@ -51,6 +51,9 @@ public class ResultSetUtils {
             }
             List<T> list = Lists.newArrayList();
             ResultSetMetaData rsMetaData = rs.getMetaData();
+            if (rsMetaData == null) {
+                return Lists.newArrayList();
+            }
             int col = rsMetaData.getColumnCount();
             List<String> headerList = getRsHeader(rs);
             ObjectMapper mapper = new ObjectMapper();

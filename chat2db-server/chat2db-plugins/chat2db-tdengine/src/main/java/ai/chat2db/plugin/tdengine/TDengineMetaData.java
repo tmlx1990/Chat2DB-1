@@ -1,11 +1,5 @@
 package ai.chat2db.plugin.tdengine;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
-import java.util.stream.Collectors;
-
 import ai.chat2db.plugin.tdengine.builder.TDengineSqlBuilder;
 import ai.chat2db.plugin.tdengine.type.*;
 import ai.chat2db.spi.MetaData;
@@ -17,6 +11,12 @@ import ai.chat2db.spi.sql.SQLExecutor;
 import jakarta.validation.constraints.NotEmpty;
 import org.apache.commons.lang3.StringUtils;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import static ai.chat2db.spi.util.SortUtils.sortDatabase;
 
 public class TDengineMetaData extends DefaultMetaService implements MetaData {
@@ -27,7 +27,6 @@ public class TDengineMetaData extends DefaultMetaService implements MetaData {
         List<Database> databases = SQLExecutor.getInstance().databases(connection);
         return sortDatabase(databases,systemDatabases,connection);
     }
-
 
     @Override
     public String tableDDL(Connection connection, @NotEmpty String databaseName, String schemaName,
@@ -130,7 +129,7 @@ public class TDengineMetaData extends DefaultMetaService implements MetaData {
         });
     }
 
-    private static String SELECT_TABLE_COLUMNS = "SELECT * FROM information_schema.COLUMNS  WHERE TABLE_SCHEMA =  '%s'  AND TABLE_NAME =  '%s'  order by ORDINAL_POSITION";
+    private static String SELECT_TABLE_COLUMNS = "SELECT col_name as COLUMN_NAME, col_type as DATA_TYPE, col_length as DATA_LENGTH , col_precision as DATA_PRECISION, col_nullable as IS_NULLABLE FROM information_schema.ins_columns  WHERE db_name =  '%s'  AND TABLE_NAME =  '%s'; ";
 
     @Override
     public List<TableColumn> columns(Connection connection, String databaseName, String schemaName, String tableName) {
@@ -143,44 +142,22 @@ public class TDengineMetaData extends DefaultMetaService implements MetaData {
                 column.setTableName(tableName);
                 column.setOldName(resultSet.getString("COLUMN_NAME"));
                 column.setName(resultSet.getString("COLUMN_NAME"));
-                //column.setColumnType(resultSet.getString("COLUMN_TYPE"));
                 column.setColumnType(resultSet.getString("DATA_TYPE").toUpperCase());
-                //column.setDataType(resultSet.getInt("DATA_TYPE"));
-                column.setDefaultValue(resultSet.getString("COLUMN_DEFAULT"));
-                column.setAutoIncrement(resultSet.getString("EXTRA").contains("auto_increment"));
-                column.setComment(resultSet.getString("COLUMN_COMMENT"));
-                column.setPrimaryKey("PRI".equalsIgnoreCase(resultSet.getString("COLUMN_KEY")));
-                column.setNullable("YES".equalsIgnoreCase(resultSet.getString("IS_NULLABLE")) ? 1 : 0);
-                column.setOrdinalPosition(resultSet.getInt("ORDINAL_POSITION"));
-                column.setDecimalDigits(resultSet.getInt("NUMERIC_SCALE"));
-                column.setCharSetName(resultSet.getString("CHARACTER_SET_NAME"));
-                column.setCollationName(resultSet.getString("COLLATION_NAME"));
-                setColumnSize(column, resultSet.getString("COLUMN_TYPE"));
+                //column.setDefaultValue(resultSet.getString("COLUMN_DEFAULT"));
+                column.setNullable(resultSet.getInt("IS_NULLABLE"));
+               // column.setCollationName(resultSet.getString("COLLATION_NAME"));
+                setColumnSize(column, resultSet.getString("DATA_LENGTH"), resultSet.getString("DATA_PRECISION"));
                 tableColumns.add(column);
             }
             return tableColumns;
         });
     }
 
-    private void setColumnSize(TableColumn column, String columnType) {
+    private void setColumnSize(TableColumn column, String dataLength, String dataPrecision) {
         try {
-            if (columnType.contains("(")) {
-                String size = columnType.substring(columnType.indexOf("(") + 1, columnType.indexOf(")"));
-                if ("SET".equalsIgnoreCase(column.getColumnType()) || "ENUM".equalsIgnoreCase(column.getColumnType())) {
-                    column.setValue(size);
-                } else {
-                    if (size.contains(",")) {
-                        String[] sizes = size.split(",");
-                        if (StringUtils.isNotBlank(sizes[0])) {
-                            column.setColumnSize(Integer.parseInt(sizes[0]));
-                        }
-                        if (StringUtils.isNotBlank(sizes[1])) {
-                            column.setDecimalDigits(Integer.parseInt(sizes[1]));
-                        }
-                    } else {
-                        column.setColumnSize(Integer.parseInt(size));
-                    }
-                }
+            column.setColumnSize(Integer.parseInt(dataLength));
+            if (StringUtils.isNotBlank(dataPrecision)) {
+                column.setDecimalDigits(Integer.parseInt(dataPrecision));
             }
         } catch (Exception e) {
         }
@@ -209,7 +186,7 @@ public class TDengineMetaData extends DefaultMetaService implements MetaData {
 
     @Override
     public List<TableIndex> indexes(Connection connection, String databaseName, String schemaName, String tableName) {
-        StringBuilder queryBuf = new StringBuilder("SHOW INDEX FROM ");
+        StringBuilder queryBuf = new StringBuilder("SHOW INDEXES FROM ");
         queryBuf.append("`").append(tableName).append("`");
         queryBuf.append(" FROM ");
         queryBuf.append("`").append(databaseName).append("`");
