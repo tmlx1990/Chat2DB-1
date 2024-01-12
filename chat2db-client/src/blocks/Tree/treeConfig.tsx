@@ -1,7 +1,7 @@
-import { ITreeNode, IConnectionDetails } from '@/typings';
-import { TreeNodeType, OperationColumn } from '@/constants';
+import {IConnectionDetails, ITreeNode} from '@/typings';
+import {OperationColumn, TreeNodeType} from '@/constants';
 import connectionService from '@/service/connection';
-import { v4 as uuid } from 'uuid';
+import {v4 as uuid} from 'uuid';
 
 import mysqlServer from '@/service/sql';
 
@@ -323,6 +323,7 @@ export const treeConfig: { [key in TreeNodeType]: ITreeConfigItem } = {
       OperationColumn.ViewDDL,
       OperationColumn.EditTable,
       OperationColumn.CopyName,
+      OperationColumn.CopyTable,
       OperationColumn.Refresh,
       OperationColumn.DeleteTable,
     ],

@@ -46,6 +46,8 @@ export default {
   'common.tips.saveSuccessfully': 'Save Successfully',
   'common.button.copy': 'Copy',
   'common.button.copyName': 'Copy name',
+  'common.button.copyTable': 'Copy Table',
+  'common.button.copeTableAndData': 'Copy Table and Data',
   'common.button.copySuccessfully': 'Copy Successfully',
   'common.button.createConsole': 'Create Console',
   'common.button.exportWord': 'Export to Word',

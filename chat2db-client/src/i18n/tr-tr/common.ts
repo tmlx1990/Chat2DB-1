@@ -46,6 +46,8 @@ export default {
   'common.tips.saveSuccessfully': 'Başarıyla Kaydedildi',
   'common.button.copy': 'Kopyala',
   'common.button.copyName': 'Adı Kopyala',
+  'common.button.copyTable': 'Tabloyu Kopyala',
+  'common.button.copeTableAndData': 'Tablo ve Veriyi Kopyala',
   'common.button.copySuccessfully': 'Başarıyla Kopyalandı',
   'common.button.createConsole': 'Konsol Oluştur',
   'common.button.exportWord': 'Word\'e Aktar',

@@ -37,6 +37,8 @@ export enum OperationColumn {
   EditTable = 'editTable', // 编辑表
   EditTableData = 'editTableData', // 编辑表数据
   CopyName = 'copyName', // 复制名称
+  CopyTable = 'copyTable', // 复制表
+  CopyTableAndData = 'copyTableAndData', // 复制表及数据
   EditView = 'editView', // 编辑视图
   OpenView = 'openView', // 打开视图
   OpenFunction = 'openFunction', // 打开函数

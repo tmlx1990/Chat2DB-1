@@ -23,6 +23,7 @@ import { deleteTable } from '../functions/deleteTable';
 
 // ----- utils -----
 import { compatibleDataBaseName } from '@/utils/database';
+import {copyTable} from "@/blocks/Tree/functions/copyTable";
 
 interface IProps {
   treeNodeData: ITreeNode;
@@ -238,6 +239,14 @@ export const useGetRightClickMenu = (props: IProps) => {
         icon: '\uec7a',
         handle: () => {
           navigator.clipboard.writeText(treeNodeData.name);
+        },
+      },
+      // 复制表
+      [OperationColumn.CopyTable]: {
+        text: i18n('common.button.copyTable'),
+        icon: '\uec7a',
+        handle: () => {
+          copyTable(treeNodeData,loadData);
         },
       },
 
@@ -484,7 +493,7 @@ export const getRightClickMenu = (props: IProps) => {
       text: i18n('workspace.menu.deleteTable'),
       icon: '\ue6a7',
       handle: () => {
-        deleteTable(treeNodeData);
+        deleteTable(treeNodeData,loadData);
       },
     },
 
@@ -535,7 +544,6 @@ export const getRightClickMenu = (props: IProps) => {
         navigator.clipboard.writeText(treeNodeData.name);
       },
     },
-
     // 打开表
     [OperationColumn.OpenTable]: {
       text: i18n('workspace.menu.openTable'),

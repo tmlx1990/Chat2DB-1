@@ -46,6 +46,8 @@ export default {
   'common.tips.saveSuccessfully': '保存成功',
   'common.button.copy': 'コピー',
   'common.button.copyName': '名前をコピー',
+  'common.button.copyTable': 'テーブルをコピー',
+  'common.button.copeTableAndData': 'テーブルとデータをコピー',
   'common.button.copySuccessfully': 'コピー成功',
   'common.button.createConsole': '新しいコンソールを作成',
   'common.button.exportWord': 'Wordにエクスポート',
