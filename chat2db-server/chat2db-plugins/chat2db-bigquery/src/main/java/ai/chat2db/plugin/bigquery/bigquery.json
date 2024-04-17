@@ -1,0 +1,25 @@
+{
+  "dbType": "BIGQUERY",
+  "supportDatabase": true,
+  "supportSchema": false,
+  "driverConfigList": [
+    {
+      "url": "jdbc:bigquery://https://www.googleapis.com/bigquery/v2:443",
+      "defaultDriver": true,
+      "custom": false,
+      "downloadJdbcDriverUrls": [
+        "https://cdn.chat2db-ai.com/lib/mysql-connector-java-8.0.30.jar"
+      ],
+      "jdbcDriver": "mysql-connector-java-8.0.30.jar",
+      "jdbcDriverClass": "com.mysql.cj.jdbc.Driver",
+      "extendInfo": [
+        {
+          "key": "zeroDateTimeBehavior",
+          "value": "convertToNull",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "name": "BigQuery"
+}
